@@ -45,8 +45,10 @@ public class Shell<State> {
 
             try {
                 nextEntry = parseInputLine(inputStreamReader.readLine());
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 System.err.println(e.getMessage());
+                continue;
+            } catch (IOException e) {
                 System.exit(1);
             }
 
@@ -56,7 +58,8 @@ public class Shell<State> {
             Command command = getCommand(commandName);
 
             if (command == null) {
-                throw new IllegalArgumentException("Command " + commandName + " not found");
+                System.err.println("Command " + commandName + " not found");
+                continue;
             }
 
             try {
